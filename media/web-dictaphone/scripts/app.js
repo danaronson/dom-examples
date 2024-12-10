@@ -5,6 +5,7 @@ const soundClips = document.querySelector(".sound-clips");
 const canvas = document.querySelector(".visualizer");
 const mainSection = document.querySelector(".main-controls");
 
+
 // Disable stop button while not recording
 stop.disabled = true;
 
@@ -21,8 +22,22 @@ if (navigator.mediaDevices.getUserMedia) {
 
   let onSuccess = function (stream) {
     const mediaRecorder = new MediaRecorder(stream);
+      var recording = false;
 
     visualize(stream);
+
+      document.addEventListener("keydown", function (e) {
+	  console.log(e.code);
+	  if ("KeyR" == e.code) {
+	      if (recording) {
+		  stop.onclick();
+	      } else {
+		  record.onclick();
+	      }
+	      recording = !recording;
+	  }
+      });
+
 
     record.onclick = function () {
       mediaRecorder.start();
